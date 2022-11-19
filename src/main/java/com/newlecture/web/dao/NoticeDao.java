@@ -10,11 +10,19 @@ import com.newlecture.web.entity.NoticeView;
 @Mapper
 public interface NoticeDao {
 	
-	List<NoticeView> getList(int offset, int size, String field, String query);
+
+	List<NoticeView> getViewList(int offset, int size, String field, String query, boolean pub);
+	int getCount(String field, String query,boolean pub);
+	NoticeView getView(int id);
 	
-	Notice get(int id);
+	Notice getNext(int id);
+	Notice getPrev(int id);
 	
 	int update(Notice notice);
 	int insert(Notice notice);
 	int delete(int id);
+	
+	int deleteAll(int[] ids);
+//	int updatePubAll(int[] pubIds, int[] closeIds);
+	int updatePubAll(int[] ids, boolean pub);
 }

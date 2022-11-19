@@ -16,22 +16,82 @@ public class NoticeServiceImp implements NoticeService {
 	private NoticeDao noticeDao;
 
 	@Override
-	public List<NoticeView> getList(int page, String field, String query) {
+	public List<NoticeView> getViewList(boolean pub) {
+		return getViewList(1, "title", "", pub);
+	}
+
+	@Override
+	public List<NoticeView> getViewList(String field, String query, boolean pub) {
+		
+		return getViewList(1, field, query, pub);
+	}
+	
+	@Override
+	public List<NoticeView> getViewList(int page, String field, String query, boolean pub) {
 		
 		int size = 10;
 		int offset = 0+(page-1)*size;	// page 1-> 0, 2 -> 10, 3 -> 20  an=a1+(n-1)d -> 0+(page-1)*10 
 		
-		List<NoticeView> list = noticeDao.getList(offset, page, field, query);
+		List<NoticeView> list = noticeDao.getViewList(offset, size, field, query, pub);
 		
 		return list;
 	}
 
 	@Override
-	public Notice get(int id) {
+	public int getCount() { //매개변수없을때 기본값 true (공개)
+		return getCount("title","", true);
+	}
+
+	@Override
+	public int getCount(String field, String query, boolean pub ) {
+		return noticeDao.getCount(field, query, pub);
+	}
+	
+	@Override
+	public NoticeView getView(int id) {
 		
-		Notice notice = noticeDao.get(id);
+		NoticeView notice = noticeDao.getView(id);
 		
 		return notice;
+	}
+
+	@Override
+	public Notice getNext(int id) {
+		return noticeDao.getNext(id);
+	}
+
+	@Override
+	public Notice getPrev(int id) {
+		return noticeDao.getPrev(id);
+	}
+
+	@Override
+	public int updatePubAll(int[] pubIds, int[] closeIds) {
+		
+		int result = 0;
+		result += noticeDao.updatePubAll(pubIds, true);
+		result += noticeDao.updatePubAll(closeIds, false);
+		return result;
+	}
+
+	@Override
+	public int deleteAll(int[] ids) {
+		return noticeDao.deleteAll(ids);
+	}
+
+	@Override
+	public int update(Notice notice) {
+		return noticeDao.update(notice);
+	}
+
+	@Override
+	public int delete(int id) {
+		return noticeDao.delete(id);
+	}
+
+	@Override
+	public int insert(Notice notice) {
+		return noticeDao.insert(notice);
 	}
 
 }

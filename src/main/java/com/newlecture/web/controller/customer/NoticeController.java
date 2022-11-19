@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.newlecture.web.entity.Notice;
 import com.newlecture.web.entity.NoticeView;
 import com.newlecture.web.service.NoticeService;
 
@@ -21,11 +20,12 @@ public class NoticeController {
 	@RequestMapping("list")	// list, detail, edit, reg, del
 	public String list(Model model) {
 		
-		int page = 2;
+		int page = 1;
 		String field = "title";
 		String query = "";
+		boolean pub = false;
 		
-		List<NoticeView> list = service.getList(page, field, query);
+		List<NoticeView> list = service.getViewList(page, field, query, pub);
 		
 		model.addAttribute("list",list);
 		
